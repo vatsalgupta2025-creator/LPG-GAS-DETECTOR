@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Gas Leakage Detection System - Project Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="app-sim.css">
+</head>
+
+<body>
+
+    <!-- Mobile Hamburger -->
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Project Report</h2>
+            <p>Smart Gas Leakage Detection System</p>
+        </div>
+        <ul class="nav-list">
+            <li><a href="#overview"><span class="num">01</span> Overview</a></li>
+            <li><a href="#problem"><span class="num">02</span> Problem Statement</a></li>
+            <li><a href="#solution"><span class="num">03</span> Proposed Solution</a></li>
+            <li><a href="#architecture"><span class="num">04</span> Architecture</a></li>
+            <li><a href="#hardware"><span class="num">05</span> Hardware</a></li>
+            <li><a href="#cost"><span class="num">06</span> Component Cost</a></li>
+            <li><a href="#wiring"><span class="num">07</span> Circuit Connections</a></li>
+            <li><a href="#workflow"><span class="num">08</span> Workflow</a></li>
+            <li><a href="#flowcharts"><span class="num">09</span> Flowcharts</a></li>
+            <li><a href="#working"><span class="num">10</span> Working Principle</a></li>
+            <li><a href="#deployment"><span class="num">11</span> Deployment</a></li>
+            <li><a href="#installation"><span class="num">12</span> Installation</a></li>
+            <li><a href="#safety"><span class="num">13</span> Safety Precautions</a></li>
+            <li><a href="#applications"><span class="num">14</span> Applications</a></li>
+            <li><a href="#future"><span class="num">15</span> Future Improvements</a></li>
+            <li><a href="#advantages"><span class="num">16</span> Advantages</a></li>
+            <li><a href="#limitations"><span class="num">17</span> Limitations</a></li>
+            <li><a href="#conclusion"><span class="num">18</span> Conclusion</a></li>
+            <li><a href="#diagrams"><span class="num">19</span> All Diagrams</a></li>
+            <li><a href="#ui-concept"><span class="num">20</span> UI Concept</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Hero Banner -->
+        <section class="hero">
+            <h1>Smart Gas Leakage Detection & Alert System</h1>
+            <p class="subtitle">An advanced IoT-based safety solution utilizing ESP32, MQ-2 Sensor, and GSM
+                Communication to prevent domestic and industrial fire hazards.</p>
+
+            <div class="badges">
+                <span class="badge esp32">ESP32 Core</span>
+                <span class="badge mq2">MQ-2 Sensing</span>
+                <span class="badge gsm">SIM800L Comms</span>
+                <span class="badge iot">IoT Ready</span>
+            </div>
+        </section>
+
+        <!-- 1. Overview -->
+        <section id="overview" class="section">
+            <div class="section-header">
+                <div class="section-num">01</div>
+                <h2>Project Overview</h2>
+            </div>
+            <p>The <strong>Smart Gas Leakage Detection and Alert System</strong> is a highly responsive safety device
+                designed to detect the presence of dangerous gases, primarily LPG (Liquefied Petroleum Gas), natural
+                gas, and smoke. Once a leak is detected, the system immediately alerts the inhabitants through a loud
+                audible alarm and visual indicators.</p>
+            <p>To ensure maximum safety—even when users are away from the premises—the system integrates a <strong>GSM
+                    module (SIM800L)</strong> to instantly send an SMS alert to registered mobile numbers. Powered by an
+                <strong>ESP32 microcontroller</strong> and backed by a rechargeable lithium-ion battery system, this
+                IoT-ready framework offers an uninterrupted, affordable, and highly reliable layer of security against
+                explosive gas leaks.
+            </p>
+        </section>
+
+        <!-- 2. Problem Statement -->
+        <section id="problem" class="section">
+            <div class="section-header">
+                <div class="section-num">02</div>
+                <h2>Problem Statement</h2>
+            </div>
+            <p>LPG gas is widely used for residential cooking, industrial heating, and automotive fuel. Due to its
+                highly flammable nature, even a minor, undetected leak can accumulate and lead to catastrophic
+                explosions, resulting in severe loss of life, severe burns, and massive property destruction.</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>The Core Issue</h3>
+                    <p>Traditional methods of detecting gas leaks rely heavily on human olfactory senses (smelling the
+                        ethyl mercaptan added to LPG). However, leaks can occur when inhabitants are asleep, away from
+                        home, or in areas with poor ventilation where the smell isn't immediately noticeable.</p>
+                </div>
+                <div class="card">
+                    <h3>The Gap</h3>
+                    <p>Most commercial gas detectors only provide a localized audio alarm. If the premises are empty, a
+                        local alarm is virtually useless. Furthermore, continuous power cuts in developing regions
+                        render standard wall-powered detectors inactive precisely when they are needed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Proposed Solution -->
+        <section id="solution" class="section">
+            <div class="section-header">
+                <div class="section-num">03</div>
+                <h2>Proposed Solution</h2>
+            </div>
+            <p>This project proposes an intelligent, self-powered, and dual-alerting gas detection system based on the
+                <strong>ESP32</strong> architecture.
+            </p>
+
+            <div class="highlight-box">
+                <h4>The Core Innovations:</h4>
+                <ul class="styled-list">
+                    <li><strong>Real-time localized detection:</strong> Using the highly sensitive MQ-2 gas sensor to
+                        continuously sample the air.</li>
+                    <li><strong>Dual Alert Mechanism:</strong> Local alerts via a high-decibel Buzzer and Red LED,
+                        paired with remote SMS notifications via the SIM800L GSM Module.</li>
+                    <li><strong>Acoustic Redundancy [NEW]:</strong> An LM393 Sound Sensor is incorporated to
+                        independently "listen" for the main buzzer. If it detects the loud alarm, it acts as a secondary
+                        trigger for mobile app notifications.</li>
+                    <li><strong>Power Resilience:</strong> An integrated 18650 Li-ion battery managed by a TP4056
+                        charging module ensures the system remains active 24/7, immune to power grid failures.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 4. Architecture -->
+        <section id="architecture" class="section">
+            <div class="section-header">
+                <div class="section-num">04</div>
+                <h2>Complete System Architecture</h2>
+            </div>
+            <p>The system architecture is divided into three primary blocks: Input (Sensing), Processing
+                (Microcontroller), and Output (Alert mechanisms).</p>
+
+            <div class="diagram-container">
+                <img src="assets/system_architecture.png" alt="System Architecture Diagram">
+                <div class="caption">Figure 4.1: High-Level System Architecture and Data Flow (Note: Sound Sensor module
+                    operates in parallel as an expansion)</div>
+            </div>
+
+            <div class="card">
+                <h3>1. Data Flow & Processing</h3>
+                <p>The MQ-2 sensor acts as the "nose" of the system. It outputs an analog voltage proportional to the
+                    gas concentration in the air. This analog signal is fed into the ESP32's ADC (Analog-to-Digital
+                    Converter), which continuously maps the voltage to a numeric value. If this value breaches
+                    predefined thresholds, the processing logic triggers the alert routines.</p>
+            </div>
+            <div class="card">
+                <h3>2. Communication Flow & Acoustic Redundancy</h3>
+                <p>Upon detection, the ESP32 activates the local buzzer and communicates with the SIM800L module via
+                    UART to send an SMS. In parallel, an <strong>LM393 Sound Sensor</strong> listens for the buzzer's
+                    specific decibel level. If triggered, it acts as a secondary failsafe, signaling the ESP32 to push
+                    an instant alert directly to the IoT Mobile Application over WiFi.</p>
+            </div>
+        </section>
+
+        <!-- 5. Hardware -->
+        <section id="hardware" class="section">
+            <div class="section-header">
+                <div class="section-num">05</div>
+                <h2>Hardware Components</h2>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>ESP32 Microcontroller</h3>
+                    <p><strong>Role:</strong> The central brain of the system.<br>
+                        <strong>Why it is used:</strong> It features a fast 32-bit dual-core processor, multiple ADCs,
+                        built-in WiFi/Bluetooth (allowing for future cloud upgrades), and low power consumption modes.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>MQ-2 Gas Sensor</h3>
+                    <p><strong>Role:</strong> Detects combustible gases.<br>
+                        <strong>Why it is used:</strong> Highly sensitive to LPG, Propane, Hydrogen, and Methane. It
+                        provides a quick response time and is highly robust in varying environments.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>LM393 Sound Sensor (Acoustic Trigger)</h3>
+                    <p><strong>Role:</strong> Failsafe Secondary Detection.<br>
+                        <strong>Why it is used:</strong> It detects the loud noise generated by the primary buzzer. If
+                        the main logic loop fails but the buzzer sounds, or if we want decoupled verification, the sound
+                        sensor triggers the IoT app notification independently.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>SIM800L GSM Module</h3>
+                    <p><strong>Role:</strong> Cellular communication.<br>
+                        <strong>Why it is used:</strong> Allows the system to send SMS messages independently of WiFi
+                        networks, ensuring alerts arrive even if home internet is down.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Power Management Subsystem</h3>
+                    <p><strong>Role:</strong> Uninterrupted power supply.<br>
+                        <strong>Components:</strong> 18650 Battery, TP4056 Charger, MT3608 Boost Converter.<br>
+                        <strong>Why it is used:</strong> The battery provides raw power. TP4056 safely charges the cell
+                        and prevents over-discharge. The MT3608 steps up the 3.7V battery voltage to a stable 5V
+                        required by the sensors and GSM.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Alert Indicators</h3>
+                    <p><strong>Role:</strong> Local notification.<br>
+                        <strong>Components:</strong> 5V Active Buzzer, Red/Green LEDs.<br>
+                        <strong>Why it is used:</strong> Provides immediate visual and loud audio feedback for people
+                        currently inside the premises.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Cost -->
+        <section id="cost" class="section">
+            <div class="section-header">
+                <div class="section-num">06</div>
+                <h2>Component Cost Structure</h2>
+            </div>
+            <p>This project is designed to be highly cost-effective, making it accessible for wide-scale deployment in
+                lower-income demographics.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Quantity/Specs</th>
+                            <th>Estimated Price (₹ INR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ESP32 DevKit V1</td>
+                            <td>1x 30-pin board</td>
+                            <td>₹300</td>
+                        </tr>
+                        <tr>
+                            <td>MQ-2 Gas Sensor Module</td>
+                            <td>1x Module</td>
+                            <td>₹120</td>
+                        </tr>
+                        <tr>
+                            <td>SIM800L GSM V2.0</td>
+                            <td>1x with Antenna</td>
+                            <td>₹200</td>
+                        </tr>
+                        <tr>
+                            <td>Active Buzzer 5V</td>
+                            <td>1x Unit</td>
+                            <td>₹20</td>
+                        </tr>
+                        <tr>
+                            <td>LEDs & Resistors</td>
+                            <td>2x LEDs, 2x 330Ω</td>
+                            <td>₹10</td>
+                        </tr>
+                        <tr>
+                            <td>18650 Li-ion Battery</td>
+                            <td>1x 2600mAh</td>
+                            <td>₹150</td>
+                        </tr>
+                        <tr>
+                            <td>TP4056 Charging Module</td>
+                            <td>1x with Protection</td>
+                            <td>₹40</td>
+                        </tr>
+                        <tr>
+                            <td>MT3608 Boost Converter</td>
+                            <td>1x Adjustable</td>
+                            <td>₹60</td>
+                        </tr>
+                        <tr>
+                            <td>Breadboard & Jumper Wires</td>
+                            <td>1x Set</td>
+                            <td>₹50</td>
+                        </tr>
+                        <tr>
+                            <td>LM393 Sound Sensor</td>
+                            <td>1x Module</td>
+                            <td>₹50</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td>Total Estimated Cost</td>
+                            <td>Complete System</td>
+                            <td>₹1000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 7. Wiring -->
+        <section id="wiring" class="section">
+            <div class="section-header">
+                <div class="section-num">07</div>
+                <h2>Circuit Connections</h2>
+            </div>
+
+            <div class="diagram-container">
+                <img src="assets/circuit_diagram.png" alt="Circuit Schematic Diagram">
+                <div class="caption">Figure 7.1: Comprehensive System Wiring Diagram (Base System)</div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component Pin</th>
+                            <th>ESP32 / Power Pin</th>
+                            <th>Signal Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MQ-2 VCC</td>
+                            <td>Boost Converter 5V+</td>
+                            <td>Power Supply</td>
+                        </tr>
+                        <tr>
+                            <td>MQ-2 GND</td>
+                            <td>Common Ground</td>
+                            <td>Ground</td>
+                        </tr>
+                        <tr>
+                            <td>MQ-2 AOUT</td>
+                            <td>ESP32 GPIO 34 (ADC)</td>
+                            <td>Analog Input</td>
+                        </tr>
+                        <tr>
+                            <td>SIM800L VCC</td>
+                            <td>Boost Converter 5V+</td>
+                            <td>Power Supply</td>
+                        </tr>
+                        <tr>
+                            <td>SIM800L GND</td>
+                            <td>Common Ground</td>
+                            <td>Ground</td>
+                        </tr>
+                        <tr>
+                            <td>SIM800L TXD</td>
+                            <td>ESP32 GPIO 16 (RX2)</td>
+                            <td>Serial Data (UART)</td>
+                        </tr>
+                        <tr>
+                            <td>SIM800L RXD</td>
+                            <td>ESP32 GPIO 17 (TX2)</td>
+                            <td>Serial Data (UART)</td>
+                        </tr>
+                        <tr>
+                            <td>Buzzer (+)</td>
+                            <td>ESP32 GPIO 25</td>
+                            <td>Digital Output</td>
+                        </tr>
+                        <tr>
+                            <td>LM393 DOUT</td>
+                            <td>ESP32 GPIO 35</td>
+                            <td>Digital Input (Sound Detect)</td>
+                        </tr>
+                        <tr>
+                            <td>Red LED (+)</td>
+                            <td>ESP32 GPIO 26 (via 330Ω)</td>
+                            <td>Digital Output</td>
+                        </tr>
+                        <tr>
+                            <td>Green LED (+)</td>
+                            <td>ESP32 GPIO 27 (via 330Ω)</td>
+                            <td>Digital Output</td>
+                        </tr>
+                        <tr>
+                            <td>18650 Battery (+/-)</td>
+                            <td>TP4056 B+ / B-</td>
+                            <td>Raw Power</td>
+                        </tr>
+                        <tr>
+                            <td>TP4056 OUT+ / OUT-</td>
+                            <td>MT3608 Boost IN+ / IN-</td>
+                            <td>Protected 3.7V Power</td>
+                        </tr>
+                        <tr>
+                            <td>MT3608 OUT+ / OUT-</td>
+                            <td>ESP32 VIN / GND</td>
+                            <td>Regulated 5V Power</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 8. Workflow -->
+        <section id="workflow" class="section">
+            <div class="section-header">
+                <div class="section-num">08</div>
+                <h2>System Workflow Process</h2>
+            </div>
+
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Initialization Sequence</h4>
+                    <p>Upon power-up, the ESP32 initializes all GPIO pins. The MQ-2 sensor requires a brief "warm-up"
+                        period (approx. 20-30 seconds) for the internal heater to reach optimal temperature. System
+                        flashes status LEDs to indicate bootup.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Continuous Monitoring Phase</h4>
+                    <p>The ESP32 continuously polls the analog pin connected to the MQ-2. The green LED remains solidly
+                        lit, indicating a safe environment. Data is averaged over short intervals to prevent false
+                        positives from brief signal spikes.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Threshold Breach Detection</h4>
+                    <p>If the gas concentration (reflected in the ADC value) crosses the pre-programmed empirical
+                        threshold, the system immediately shifts into the ALARM state.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h4>Alert Execution</h4>
+                    <p>The green LED extinguishes. The Red LED turn ON and the Buzzer emits a continuous, high-pitched
+                        alarm. Simultaneously, the ESP32 triggers the AT command sequence to the SIM800L.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <h4>Remote Notification (SMS + App)</h4>
+                    <p>The SIM800L dispatches an SMS message. Simultaneously, the <strong>LM393 Sound Sensor</strong>
+                        picks up the loud decibels from the active buzzer. This acoustic trigger signals the ESP32 to
+                        fire a high-priority "Leak Detected!" Push Notification to the accompanying IoT Mobile App over
+                        WiFi.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Flowcharts -->
+        <section id="flowcharts" class="section">
+            <div class="section-header">
+                <div class="section-num">09</div>
+                <h2>System Logic Flowchart</h2>
+            </div>
+            <p>The flowchart below outlines the software execution cycle running on the ESP32 microcontroller.</p>
+
+            <div class="diagram-container">
+                <img src="assets/flowchart.png" alt="Software Logic Flowchart">
+                <div class="caption">Figure 9.1: Software Execution and Decision Flow (Base Logic)</div>
+            </div>
+        </section>
+
+        <!-- 10. Working Principle -->
+        <section id="working" class="section">
+            <div class="section-header">
+                <div class="section-num">10</div>
+                <h2>Working Principle of MQ-2 Sensor</h2>
+            </div>
+            <p>The MQ-2 is a Metal Oxide Semiconductor (MOS) type gas sensor. Its core functional component is a micro
+                AL₂O₃ ceramic tube covered by a sensitive layer of <strong>Tin Dioxide (SnO₂)</strong>.</p>
+
+            <div class="highlight-box">
+                <h4>The Chemical Process:</h4>
+                <p>In clean air, oxygen from the atmosphere adsorbs onto the SnO₂ surface. This traps electrons in the
+                    semiconductor, resulting in a high electrical resistance.</p>
+                <p style="margin-top:10px;">When reducing combustible gases (like LPG or Methane) enter the sensor
+                    chamber, they react with the adsorbed oxygen. This chemical reaction releases the previously trapped
+                    electrons back into the semiconductor material. Consequently, the <strong>electrical resistance
+                        drops sharply</strong>.</p>
+            </div>
+
+            <p>The varying resistance alters the voltage drop across an internal load resistor, which the ESP32 reads as
+                a changing analog voltage level (0 to 5V → mapped to 0-4095 digitally on the ESP32).</p>
+        </section>
+
+        <!-- 11. Deployment -->
+        <section id="deployment" class="section">
+            <div class="section-header">
+                <div class="section-num">11</div>
+                <h2>Deployment Locations</h2>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Domestic Kitchens</h3>
+                    <p>Near LPG cylinder setups and stoves. Prevents overnight leaks from turning fatal.</p>
+                </div>
+                <div class="card">
+                    <h3>Restaurants</h3>
+                    <p>Commercial kitchens utilizing massive commercial gas pipelines and large cylinders.</p>
+                </div>
+                <div class="card">
+                    <h3>Chemical Labs</h3>
+                    <p>University and industrial laboratories utilizing bunsen burners and piped gas grids.</p>
+                </div>
+                <div class="card">
+                    <h3>Industrial Storage</h3>
+                    <p>Warehouses storing volatile chemicals or gas canisters where human monitoring is minimal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12. Installation -->
+        <section id="installation" class="section">
+            <div class="section-header">
+                <div class="section-num">12</div>
+                <h2>Installation Guidelines</h2>
+            </div>
+
+            <ul class="styled-list">
+                <li><strong>Density Considerations:</strong> LPG is heavier than air. Therefore, the sensor should be
+                    installed approximately <strong>30 cm (1 ft) above the floor level</strong> for LPG setups.
+                    Conversely, for natural gas (Methane), which is lighter than air, the unit should be installed 30 cm
+                    below the ceiling.</li>
+                <li><strong>Proximity:</strong> The device should be placed within 1 to 2 meters horizontally from the
+                    suspected leakage source (e.g., the gas cylinder valve or stove connection).</li>
+                <li><strong>Avoid Dead Air Spaces:</strong> Do not install behind curtains, inside enclosed cabinets, or
+                    near excessive drafts (windows/exhaust fans) that could blow gas away from the sensor.</li>
+                <li><strong>GSM Network:</strong> A location must be selected where the SIM800L receives an adequate
+                    cellular signal strength for reliable message delivery.</li>
+            </ul>
+        </section>
+
+        <!-- 13. Safety -->
+        <section id="safety" class="section">
+            <div class="section-header">
+                <div class="section-num">13</div>
+                <h2>Safety Precautions</h2>
+            </div>
+
+            <div class="grid-2">
+                <div class="card" style="border-left: 4px solid var(--danger);">
+                    <h3 style="color: var(--danger);">Installation Hazards</h3>
+                    <p>Ensure the system is not placed directly over an open flame, as extreme temperatures will damage
+                        the sensor housing and wiring.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--warning);">
+                    <h3 style="color: var(--warning);">Battery Care</h3>
+                    <p>Li-ion batteries must be correctly integrated with the TP4056 protection module. A short circuit
+                        or overcharging (bypassing the TP4056) poses a serious fire risk in itself.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--accent-3);">
+                    <h3 style="color: var(--accent-3);">Water Exposure</h3>
+                    <p>The MQ-2 has an open mesh net. Exposure to steam, frying oil splashes, or water mist can
+                        permanently clog the sensitive layer.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--accent);">
+                    <h3 style="color: var(--accent);">Periodic Testing</h3>
+                    <p>System should be tested monthly using a safe, unlit butane lighter to verify sensor
+                        responsiveness and GSM messaging functionality.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. Applications -->
+        <section id="applications" class="section">
+            <div class="section-header">
+                <div class="section-num">14</div>
+                <h2>Practical Applications</h2>
+            </div>
+            <p>Beyond simple residential use, this technology scales effectively for various applications:</p>
+            <ul class="styled-list">
+                <li><strong>Smart Home Integration:</strong> Forming the baseline security layer for modern smart home
+                    automation systems.</li>
+                <li><strong>Automotive Security:</strong> RVs, caravans, and food trucks that carry localized propane
+                    tanks.</li>
+                <li><strong>Mining Safety:</strong> Can be adapted to detect dangerous methane pockets in underground
+                    mining environments.</li>
+                <li><strong>Server Room Monitoring:</strong> In combination with smoke detection functionality (as MQ-2
+                    detects smoke) to protect vital IT infrastructure.</li>
+            </ul>
+        </section>
+
+        <!-- 15. Future -->
+        <section id="future" class="section">
+            <div class="section-header">
+                <div class="section-num">15</div>
+                <h2>Future Improvements & Scope</h2>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Phase 2 Architecture Upgrades:</h4>
+                <div class="tag-list" style="margin-bottom: 16px;">
+                    <span class="tag green">IoT / Cloud</span>
+                    <span class="tag purple">Mobile Apps</span>
+                    <span class="tag red">Automation</span>
+                </div>
+                <p>1. <strong>IoT Dashboard:</strong> Utilizing the ESP32's native WiFi to send live ppm (parts per
+                    million) data to cloud services like Blynk, ThingSpeak, or AWS IoT for graphical tracking and data
+                    logging.</p>
+                <p>2. <strong>Automated Mitigation:</strong> Interfacing the ESP32 with an electromechanical solenoid
+                    valve. Upon leak detection, the system physically cuts off the primary gas supply line, directly
+                    neutralizing the threat.</p>
+                <p>3. <strong>Exhaust Automation:</strong> Automatically triggering a heavy-duty exhaust fan to safely
+                    extract explosive gas mixtures outside the building.</p>
+            </div>
+        </section>
+
+        <!-- 16 & 17. Pros/Cons -->
+        <section id="proscons" class="section">
+            <div class="grid-2">
+                <div class="card">
+                    <div class="section-header" style="border: none; padding:0; margin-bottom: 16px;">
+                        <div class="section-num" id="advantages">16</div>
+                        <h2>Advantages</h2>
+                    </div>
+                    <ul class="styled-list">
+                        <li><strong>Highly Cost Effective</strong> (Under ₹1000 INR).</li>
+                        <li><strong>24/7 Redundancy:</strong> Operates completely independent of the main power grid.
+                        </li>
+                        <li><strong>Dual Notification:</strong> Informs both local occupants and absent owners.</li>
+                        <li><strong>Rapid Response:</strong> Detects leaks long before they reach lower explosive limits
+                            (LEL).</li>
+                        <li><strong>Compact:</strong> Small physical footprint, easily hidden.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="section-header" style="border: none; padding:0; margin-bottom: 16px;">
+                        <div class="section-num" id="limitations">17</div>
+                        <h2>Limitations</h2>
+                    </div>
+                    <ul class="styled-list">
+                        <li><strong>Network Dependency:</strong> SMS functionality requires an active cellular 2G/GSM
+                            network.</li>
+                        <li><strong>Cross-Sensitivity:</strong> MQ-2 is non-specific; heavy cooking smoke or strong
+                            alcohol vapors may trigger false alarms.</li>
+                        <li><strong>Calibration:</strong> Requires careful analog calibration for specific environmental
+                            baselines.</li>
+                        <li><strong>Lifespan:</strong> Chemical sensors slowly degrade and must be replaced every 3-5
+                            years.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 18. Conclusion -->
+        <section id="conclusion" class="section">
+            <div class="section-header">
+                <div class="section-num">18</div>
+                <h2>Conclusion</h2>
+            </div>
+            <div class="conclusion-box">
+                <p>The <strong>Smart Gas Leakage Detection and Alert System</strong> presents a robust, scalable, and
+                    economical solution to a critical household and industrial safety problem. By synergistically
+                    combining the analog sensing capabilities of the MQ-2, the processing power of the ESP32, and the
+                    ubiquitous reach of GSM networks, this project successfully bridges the gap between basic commercial
+                    detectors and high-end industrial systems. Its adoption has the definitive potential to drastically
+                    mitigate the risks of gas-induced explosions, prioritizing human safety and property security.</p>
+            </div>
+        </section>
+
+        <!-- 19 & 20. App Concept -->
+        <section id="diagrams" class="section">
+            <div class="section-header">
+                <div class="section-num" id="ui-concept">19 & 20</div>
+                <h2>Interactive IoT Mobile Dashboard</h2>
+            </div>
+            <p>Test the acoustic redundancy feature! The interactive dashboard below simulates the functional companion
+                mobile app. Use the control panel to trigger hardware events and watch the app respond in real-time.</p>
+
+            <div class="app-simulation">
+
+                <!-- App Phone Container -->
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="app-header">
+                        <h3>Home Safety</h3>
+                        <span class="battery">🔋 84%</span>
+                    </div>
+
+                    <div class="app-body">
+                        <div class="status-card" id="app-status">
+                            <div class="status-dot green" id="status-dot"></div>
+                            <span id="status-text">System Normal</span>
+                        </div>
+
+                        <div class="gauge-container">
+                            <div class="gauge-circle" id="gauge-circle">
+                                <span class="ppm-value" id="ppm-display">35</span>
+                                <span class="ppm-label">PPM Gas Level</span>
+                            </div>
+                        </div>
+
+                        <!-- Phone Connection Status -->
+                        <div class="mobile-connection"
+                            style="margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">📱</span>
+                                <span style="font-weight: 600;">Phone Alerts:</span>
+                                <span id="phone-status" style="color: #666;">Waiting...</span>
+                            </div>
+                            <button onclick="enablePhoneAlerts()" id="enable-alerts-btn"
+                                style="margin-top: 8px; padding: 8px; background: #6366f1; border: none; border-radius: 6px; cursor: pointer; color: white; font-size: 12px; width: 100%;">
+                                🔔 Enable Phone Notifications
+                            </button>
+                            <p style="font-size: 11px; color: #aaa; margin-top: 8px; text-align: center;">
+                                Alerts auto-send when buzzer sounds
+                            </p>
+                        </div>
+
+                        <div class="notifications">
+                            <h4>Recent Alerts</h4>
+                            <ul id="notif-list" style="padding-left:0; list-style:none;">
+                                <li class="notif info"><span class="time" style="font-weight:bold">[System]</span>
+                                    Online and monitoring.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Controls -->
+                <div class="sim-controls">
+                    <h3>Hardware Simulation Panel</h3>
+                    <p>Interact with the physical inputs to observe IoT responses.</p>
+                    <div class="control-grid">
+                        <button class="sim-btn gas-btn" onclick="simGasLeak()">
+                            <span class="btn-icon">☁️</span>
+                            Simulate Gas Leak
+                        </button>
+                        <button class="sim-btn sound-btn" onclick="simBuzzer()">
+                            <span class="btn-icon">🔊</span>
+                            Trigger Buzzer Sound
+                        </button>
+                        <button class="sim-btn reset-btn" onclick="resetSim()">
+                            <span class="btn-icon">🔄</span>
+                            Reset Environment
+                        </button>
+                    </div>
+
+                    <!-- Voice Alert Component -->
+                    <div class="voice-control-panel">
+                        <h3>🎤 Voice Alert System</h3>
+                        <p>Enable voice notifications - speaks emergency alerts when buzzer is detected</p>
+                        <div class="voice-toggle-container">
+                            <label class="voice-switch">
+                                <input type="checkbox" id="voice-toggle" onchange="toggleVoice()">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="voice-status" id="voice-status">Voice Alerts: OFF</span>
+                        </div>
+                        <div class="emergency-numbers" id="emergency-numbers" style="display: none;">
+                            <h4>🚨 Emergency Contacts</h4>
+                            <div class="emergency-card">
+                                <p><strong>Fire Department:</strong> 101</p>
+                                <p><strong>Police:</strong> 100</p>
+                                <p><strong>Emergency Ambulance:</strong> 102</p>
+                                <p><strong>Gas Emergency:</strong> 1906</p>
+                            </div>
+                        </div>
+                        <div class="voice-indicator" id="voice-indicator" style="display: none;">
+                            <span class="listening">🔊 Listening for buzzer...</span>
+
+                            <!-- Diagnostic Readout -->
+                            <div id="audio-debug"
+                                style="margin-top: 10px; font-family: monospace; font-size: 11px; color: var(--text-muted); text-align: left; background: rgba(0,0,0,0.1); padding: 8px; border-radius: 4px;">
+                                <div id="debug-vol">Peak Vol: 0</div>
+                                <div id="debug-bin">Peak Bin: 0</div>
+                                <div id="debug-avg">Avg Vol: 0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Active state script
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-list a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
