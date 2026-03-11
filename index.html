@@ -732,20 +732,20 @@
 
                 <!-- Simulation Controls -->
                 <div class="sim-controls">
-                    <h3>Hardware Simulation Panel</h3>
-                    <p>Interact with the physical inputs to observe IoT responses.</p>
+                    <h3>Gas Detection Monitor</h3>
+                    <p>Real-time gas level monitoring with automatic alerts.</p>
                     <div class="control-grid">
-                        <button class="sim-btn gas-btn" onclick="simGasLeak()">
-                            <span class="btn-icon">☁️</span>
-                            Simulate Gas Leak
-                        </button>
-                        <button class="sim-btn sound-btn" onclick="simBuzzer()">
-                            <span class="btn-icon">🔊</span>
-                            Trigger Buzzer Sound
-                        </button>
                         <button class="sim-btn reset-btn" onclick="resetSim()">
                             <span class="btn-icon">🔄</span>
-                            Reset Environment
+                            Reset System
+                        </button>
+                    </div>
+
+                    <!-- Auto Gas Leak Demo -->
+                    <div style="margin-top: 15px;">
+                        <button class="sim-btn gas-btn" onclick="triggerAutoGasLeak()" style="width: 100%;">
+                            <span class="btn-icon">⚡</span>
+                            Test Gas Leak Alert
                         </button>
                     </div>
 

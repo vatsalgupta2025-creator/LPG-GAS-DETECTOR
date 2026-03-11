@@ -10,6 +10,11 @@
     box-shadow: var(--shadow);
 }
 
+/* Smooth transitions for all elements */
+* {
+    transition: all 0.3s ease;
+}
+
 /* Phone Frame */
 .phone-frame {
     width: 300px;
@@ -22,6 +27,12 @@
     flex-shrink: 0;
     color: white;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.phone-frame:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px -12px rgba(232, 62, 140, 0.35), inset 0 0 0 4px #e2e8f0;
 }
 
 .phone-notch {
@@ -126,13 +137,31 @@
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.02);
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
 }
 
 .ppm-value {
     font-size: 42px;
     font-weight: 800;
+    transition: all 0.3s ease;
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes dangerPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 60px rgba(239, 68, 68, 0.8);
+    }
+}
+
+.gauge-circle.danger {
+    animation: dangerPulse 0.5s ease-in-out infinite;
 }
 
 .ppm-label {

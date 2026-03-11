@@ -32,6 +32,23 @@ function startAmbient() {
 
 startAmbient();
 
+// Auto-request notification permission on page load
+window.addEventListener('load', function () {
+    if ('Notification' in window && Notification.permission === 'default') {
+        // Try to request permission automatically
+        Notification.requestPermission().then(function (permission) {
+            if (permission === 'granted') {
+                const phoneStatus = document.getElementById('phone-status');
+                if (phoneStatus) {
+                    phoneStatus.innerHTML = '<span style="color: #22c55e;">✓ Auto-enabled</span>';
+                }
+            }
+        }).catch(function (err) {
+            console.log('Auto permission request:', err);
+        });
+    }
+});
+
 // Enable phone notifications
 function enablePhoneAlerts() {
     const btn = document.getElementById('enable-alerts-btn');
@@ -60,6 +77,72 @@ function enablePhoneAlerts() {
     } else {
         alert('Your browser does not support notifications.');
     }
+}
+
+// Auto trigger gas leak - sets PPM to ~300 and notifies phone
+function triggerAutoGasLeak() {
+    if (isLeakActive) return;
+
+    // Check and request notification permission
+    if ('Notification' in window) {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === 'granted') {
+                    startGasLeakSequence();
+                } else {
+                    alert('Please ALLOW notifications to receive gas leak alerts on your phone!');
+                }
+            });
+        } else if (Notification.permission === 'denied') {
+            alert('Notifications are BLOCKED. Please enable them in Chrome settings: Chrome → Settings → Privacy → Notifications');
+            return;
+        } else {
+            startGasLeakSequence();
+        }
+    } else {
+        alert('Your browser does not support notifications. Please use Chrome or a modern browser.');
+    }
+}
+
+function startGasLeakSequence() {
+    isLeakActive = true;
+
+    // Smoothly animate PPM to ~300
+    gasPPM = 0;
+    const targetPPM = 280 + Math.floor(Math.random() * 40); // 280-320 range
+
+    const ppmInterval = setInterval(() => {
+        gasPPM += 15;
+        if (gasPPM >= targetPPM) {
+            gasPPM = targetPPM;
+            clearInterval(ppmInterval);
+
+            // Trigger buzzer and phone notification
+            triggerBuzzerWithAlert();
+        }
+        updateUI();
+    }, 30);
+}
+
+// Trigger buzzer and send phone notification
+function triggerBuzzerWithAlert() {
+    isBuzzerActive = true;
+
+    statusText.innerText = "ALARM ACTIVE!";
+    statusDot.className = "status-dot red pulse alert-anim";
+
+    // Add danger class for smooth pulsing animation
+    gaugeCircle.classList.add('danger');
+
+    // Add dashboard notification
+    addNotification('danger', '⚠️ HIGH GAS LEVEL DETECTED!');
+    addNotification('alert', '🔔 Buzzer activated!');
+
+    // Send alert to phone automatically
+    sendAlertToPhone();
+
+    // Vibrate
+    if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
 }
 
 function updateUI() {
@@ -187,6 +270,10 @@ function resetSim() {
     isLeakActive = false;
     isBuzzerActive = false;
     gasPPM = 35;
+
+    // Remove danger class
+    gaugeCircle.classList.remove('danger');
+
     updateUI();
     addNotification('info', 'System reset manually.');
 }
